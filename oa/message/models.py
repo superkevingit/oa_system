@@ -18,9 +18,9 @@ class OaMessage(models.Model):
         cls.objects.get_or_create(title=title, content=content)
 
     @classmethod
-    def del_message(cls, mes_id):
-        cls.objects.update_or_create(id=mes_id, is_active=True)
+    def del_message(cls, id):
+        cls.objects.filter(id=id).update(is_active=False)
 
     @classmethod
-    def undo_del_message(cls, mes_id):
-        cls.objects.update_or_create(id=mes_id, is_active=False)
+    def undo_del_message(cls, id):
+        cls.objects.filter(id=id).update(is_active=True)

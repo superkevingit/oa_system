@@ -30,8 +30,36 @@ def new_oa_message(request):
         message_form = OaMessageForm(request.POST)
         if message_form.is_valid():
             OaMessage.new_message(title=message_form.cleaned_data['title'],
-                                content=message_form.cleaned_data['content'])
+                                  content=message_form.cleaned_data['content'])
+            messages.add_message(request, messages.SUCCESS, u"add pubmessage success")
             return HttpResponseRedirect('/message/')
     else:
         message_form = OaMessageForm()
     return render(request, 'message/new_message.html', {'message_form': message_form})
+
+
+def del_oa_message(request, id):
+    mes = OaMessage.objects.get(id=int(id))
+    if mes:
+        OaMessage.del_message(id=int(id))
+        messages.add_message(request, messages.SUCCESS, u"del success")
+        return HttpResponseRedirect('/message/')
+    return messages.add_message(request, messages.ERROR, u"del message failed")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
