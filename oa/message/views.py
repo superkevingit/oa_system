@@ -3,35 +3,35 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.contrib import messages
 
-from .models import Message
-from .forms import MessageForm
+from .models import OaMessage
+from .forms import OaMessageForm
 
 
-class MessageListView(ListView):
-    model = Message
+class OaMessageListView(ListView):
+    model = OaMessage
 
     def get_context_data(self, **kwargs):
-        context = super(MessageListView, self).get_context_data(**kwargs)
+        context = super(OaMessageListView, self).get_context_data(**kwargs)
         return context
 
 
-class MessageDetailView(DetailView):
-    model = Message
+class OaMessageDetailView(DetailView):
+    model = OaMessage
 
     def get_context_data(self, **kwargs):
-        context = super(MessageDetailView, self).get_context_data(**kwargs)
+        context = super(OaMessageDetailView, self).get_context_data(**kwargs)
         return context
 
 
-def new_message(request):
+def new_oa_message(request):
     if request.method == 'POST':
-        message_form = MessageForm(request.POST)
-
+        message_form = OaMessageForm(request.POST)
         if message_form.is_valid():
-            Message.new_message(title=message_form.cleaned_data['title'],
+            OaMessage.new_message(title=message_form.cleaned_data['title'],
                                 content=message_form.cleaned_data['content'])
             return HttpResponseRedirect('/message/')
     else:
-        message_form = MessageForm()
+        message_form = OaMessageForm()
     return render(request, 'message/new_message.html', {'message_form': message_form})

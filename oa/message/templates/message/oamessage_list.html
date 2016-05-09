@@ -1,4 +1,5 @@
-{% if message_list %}
+<a href="{% url 'oa-message-new' %}">新增公告</a>
+{% if oamessage_list %}
   <ul>
     {% for message in object_list%}
     <li><a href="/message/{{ message.id}}/">{{ message.title}} </a></li>
