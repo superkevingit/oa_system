@@ -2,13 +2,13 @@
 <a href="{% url 'oa-message-new' %}">新增公告</a>
 {% if oamessage_list %}
     {% for message in object_list%}
-    <ol name='id'>
-      <a href="/message/{{ message.id}}/">
-        {{ message.title}}
-      </a>
-      <a href="/message/del/{{ message.id}}/">删除</a>
-    </ol>
+      {% if message.is_active %}
+      <ol name='id'>
+        <a href="/message/{{ message.id}}/">
+          {{ message.title}}
+        </a><br/>
+        <a href="/message/del/{{ message.id}}/">删除</a>
+      </ol>
+      {% endif %}
     {% endfor %}
-{% else %}
-  <p>no message</p>
 {% endif %}

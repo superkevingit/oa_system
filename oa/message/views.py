@@ -4,6 +4,7 @@ from django.views.generic.detail import DetailView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 
 from .models import OaMessage
 from .forms import OaMessageForm
@@ -40,26 +41,20 @@ def new_oa_message(request):
 
 def del_oa_message(request, id):
     mes = OaMessage.objects.get(id=int(id))
-    if mes:
+    if mes and mes.is_active==True:
         OaMessage.del_message(id=int(id))
-        messages.add_message(request, messages.SUCCESS, u"del success")
+        info = reverse('oa-message-del-undo', args=[int(id)])
+        messages.add_message(request, messages.SUCCESS, info)
         return HttpResponseRedirect('/message/')
-    return messages.add_message(request, messages.ERROR, u"del message failed")
+    messages.add_message(request, messages.ERROR, u"del message failed")
+    return HttpResponseRedirect('/message/')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def undo_del_oa_message(request, id):
+    mes = OaMessage.objects.get(id=int(id))
+    if mes and mes.is_active==False:
+        OaMessage.undo_del_message(id=int(id))
+        messages.add_message(request, messages.SUCCESS, 'success')
+        return HttpResponseRedirect('/message/')
+    messages.add_message(request, messages.ERROR, u"undo del message failed")
+    return HttpResponseRedirect('/message/')

@@ -8,7 +8,7 @@ class OaMessage(models.Model):
     content = models.TextField(u"内容")
     pub_time = models.DateTimeField(u"发布时间", auto_now_add=True)
     mod_time = models.DateTimeField(u"修改时间", auto_now=True)
-    is_active = models.BooleanField(u"是否删除", default=False)
+    is_active = models.BooleanField(u"是否激活", default=True)
 
     def __str__(self):
         return self.title
