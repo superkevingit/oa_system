@@ -1,3 +1,4 @@
+# coding:utf-8
 from django.shortcuts import HttpResponseRedirect, render
 from django.contrib import messages
 from django.conf import settings
@@ -17,12 +18,19 @@ def account_login(request):
             result, token = login_post(login_api, data)
             if result:
                 if Account.check_user_exist(student_id):
-                    Account.account_update_user(student_id)
+                    user, account_password = Account.account_update_user(student_id)
+                    account_user = Account(user=user,
+                                           token=token)
+                    account_user.save()
                     messages.add_message(request, messages.SUCCESS, u"Welcome Back")
                 else:
                     info_api = settings.INFO_API
                     result, username = get_info(info_api, token, student_id)
-                    Account.account_create_user(student_id, username)
+                    user, account_password = Account.account_create_user(username)
+                    account_user = Account(user=user,
+                                           student_id=student_id,
+                                           token=token)
+                    account_user.save()
                     messages.add_message(request, messages.SUCCESS, u"Welcome to OAsystem")
                     return HttpResponseRedirect('/message/')
             else:

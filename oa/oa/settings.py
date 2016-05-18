@@ -110,4 +110,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_API = 'http://user.ecjtu.net/api/login'
-INFO_API = 'http://user.ecjtu.net/api/user'
+INFO_API = 'http://user.ecjtu.net/api/user/'

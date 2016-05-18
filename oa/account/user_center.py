@@ -13,8 +13,10 @@ def login_post(url, data):
 
 def get_info(url, token, student_id):
     cookies = dict(uc_token=token)
-    g = requests.get(url + student_id, cookies=cookies)
+    url = url + student_id
+    g = requests.get(url, cookies=cookies)
     info = g.text
-    result = json.loads(info)['result']
-    username = json.loads(info)['user']['Name']
+    info = json.loads(info)
+    result = info['result']
+    username = info['user']['Name']
     return result, username
