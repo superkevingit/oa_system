@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^message/del/(\d+)/$', del_oa_message, name='oa-message-del'),
     url(r'^message/undo_del/(\d+)$', undo_del_oa_message, name='oa-message-del-undo'),
     url(r'^login/$', account_login, name='account-login'),
+    url(r'^$', account_login, name='account-login'),
 
     url(r'^admin/', include(admin.site.urls)),
 ]
