@@ -1,6 +1,7 @@
+# coding:utf-8
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.exceptions import MultipleObjectsReturned, DoesNotExist
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from random import choice
 import string
 
@@ -8,16 +9,13 @@ import string
 class Account(models.Model):
     user = models.OneToOneField(User)
     student_id = models.CharField(u'学号', max_length=20)
-    tokens = models.CharField(u'密令')
+    tokens = models.CharField(u'密令', max_length=255)
 
     def __str__(self):
         return self.user.username
 
     def _MakePassword(length=8, chars=string.letters+ string.digits):
         return ''.join([choice(chars) for i in range(length)])
-
-    @classmethod
-    def account_login_user(cls, student)
 
     @classmethod
     def account_create_user(cls, student_id, student_name):
@@ -42,7 +40,7 @@ class Account(models.Model):
             cls.objects.filter(student_id=student_id)
         except MultipleObjectsReturned:
             return True
-        except DoesNotExist:
+        except ObjectDoesNotExist:
             return False
         else:
             return True
